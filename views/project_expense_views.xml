@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    <!-- PROJECT / EXPENSE HEAD — Form View -->
+    <record id="view_project_expense_form" model="ir.ui.view">
+        <field name="name">nn.project.expense.form</field>
+        <field name="model">nn.project.expense</field>
+        <field name="arch" type="xml">
+            <form string="Project or Expense Head">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Project Alpha or Office Rent"/>
+                        </h1>
+                    </div>
+ 
+                    <!-- Balance stat buttons -->
+                    <div class="o_field_widget o_stat_buttons">
+                        <div class="btn btn-light o_stat_button">
+                            <field name="total_allocated" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <span class="o_stat_text">Total Allocated</span>
+                        </div>
+                        <div class="btn btn-light o_stat_button">
+                            <field name="available_balance" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <span class="o_stat_text">Available</span>
+                        </div>
+                        <div class="btn btn-light o_stat_button">
+                            <field name="requisition_hold" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <span class="o_stat_text">Req. Hold</span>
+                        </div>
+                        <div class="btn btn-light o_stat_button">
+                            <field name="transfer_hold" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <span class="o_stat_text">Transfer Hold</span>
+                        </div>
+                        <div class="btn btn-light o_stat_button">
+                            <field name="total_spent" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <span class="o_stat_text">Total Spent</span>
+                        </div>
+                    </div>
+ 
+                    <group>
+                        <group string="Details">
+                            <field name="budget_type"/>
+                            <field name="code"/>
+                            <field name="currency_id" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}"
+                                   groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Transfer Summary">
+                            <field name="incoming_transfers" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}" readonly="1"/>
+                            <field name="outgoing_transfers" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}" readonly="1"/>
+                        </group>
+                    </group>
+ 
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"/>
+                    </group>
+ 
+                    <notebook>
+                        <page string="Allocations" name="allocations">
+                            <field name="allocation_ids" readonly="1">
+                                <list string="Allocations"
+                                      decoration-success="state == 'approved'"
+                                      decoration-warning="state in ('submitted','gm_approved')"
+                                      decoration-danger="state in ('rejected','cancelled')">
+                                    <field name="name"/>
+                                    <field name="request_date"/>
+                                    <field name="fund_account_id"/>
+                                    <field name="amount" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'approved'"
+                                           decoration-warning="state in ('submitted','gm_approved')"
+                                           decoration-danger="state in ('rejected','cancelled')"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Requisitions" name="requisitions">
+                            <field name="requisition_ids" readonly="1">
+                                <list string="Requisitions"
+                                      decoration-success="state in ('approved','closed')"
+                                      decoration-warning="state in ('submitted','gm_approved')"
+                                      decoration-danger="state in ('rejected','cancelled')">
+                                    <field name="name"/>
+                                    <field name="request_date"/>
+                                    <field name="requested_amount" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="remaining_billable" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state in ('approved','closed')"
+                                           decoration-warning="state in ('submitted','gm_approved')"
+                                           decoration-danger="state in ('rejected','cancelled')"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Transfers Out" name="transfers_out">
+                            <field name="transfer_out_ids" readonly="1">
+                                <list string="Outgoing Transfers"
+                                      decoration-success="state == 'approved'"
+                                      decoration-warning="state in ('submitted','gm_approved')"
+                                      decoration-danger="state in ('rejected','cancelled')">
+                                    <field name="name"/>
+                                    <field name="request_date"/>
+                                    <field name="destination_id"/>
+                                    <field name="amount" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'approved'"
+                                           decoration-warning="state in ('submitted','gm_approved')"
+                                           decoration-danger="state in ('rejected','cancelled')"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Transfers In" name="transfers_in">
+                            <field name="transfer_in_ids" readonly="1">
+                                <list string="Incoming Transfers"
+                                      decoration-success="state == 'approved'"
+                                      decoration-warning="state in ('submitted','gm_approved')"
+                                      decoration-danger="state in ('rejected','cancelled')">
+                                    <field name="name"/>
+                                    <field name="request_date"/>
+                                    <field name="source_id"/>
+                                    <field name="amount" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'approved'"
+                                           decoration-warning="state in ('submitted','gm_approved')"
+                                           decoration-danger="state in ('rejected','cancelled')"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- PROJECT / EXPENSE HEAD — List View -->
+    <record id="view_project_expense_list" model="ir.ui.view">
+        <field name="name">nn.project.expense.list</field>
+        <field name="model">nn.project.expense</field>
+        <field name="arch" type="xml">
+            <list string="Projects or Expense Heads">
+                <field name="name"/>
+                <field name="budget_type"/>
+                <field name="code"/>
+                <field name="total_allocated" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="available_balance" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="requisition_hold" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="transfer_hold" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="total_spent" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- PROJECT / EXPENSE HEAD — Search View -->
+    <record id="view_project_expense_search" model="ir.ui.view">
+        <field name="name">nn.project.expense.search</field>
+        <field name="model">nn.project.expense</field>
+        <field name="arch" type="xml">
+            <search string="Projects or Expense Heads">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Projects" name="projects"
+                        domain="[('budget_type','=','project')]"/>
+                <filter string="Expense Heads" name="expenses"
+                        domain="[('budget_type','=','expense')]"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Type" name="grp_type"
+                            context="{'group_by': 'budget_type'}"/>
+                    <filter string="Company" name="grp_company"
+                            context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>    
+
+    <!-- Actions -->
+    <record id="action_projects" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">nn.project.expense</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('budget_type','=','project')]</field>
+        <field name="context">{'default_budget_type': 'project'}</field>
+        <field name="search_view_id" ref="view_project_expense_search"/>
+    </record>
+ 
+    <record id="action_expense_heads" model="ir.actions.act_window">
+        <field name="name">Expense Heads</field>
+        <field name="res_model">nn.project.expense</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('budget_type','=','expense')]</field>
+        <field name="context">{'default_budget_type': 'expense'}</field>
+        <field name="search_view_id" ref="view_project_expense_search"/>
+    </record>
+    
+    </data>
+    
+</odoo>

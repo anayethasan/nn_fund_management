@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    <!-- INCOMING FUND — Form View -->
+    <record id="view_incoming_fund_form" model="ir.ui.view">
+        <field name="name">nn.incoming.fund.form</field>
+        <field name="model">nn.incoming.fund</field>
+        <field name="arch" type="xml">
+            <form string="Incoming Fund">
+ 
+                <!-- Status bar -->
+                <header>
+                    <!-- Confirm: only in draft, only finance users (server enforces too) -->
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
+ 
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state not in ('draft','confirmed')"
+                            groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"
+                            confirm="Are you sure you want to cancel this incoming fund?"/>
+ 
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object"
+                            invisible="state != 'cancelled'"/>
+ 
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed"/>
+                </header>
+ 
+                <sheet>
+                    <div class="oe_title">
+                        <label for="transaction_ref" string="Transaction Reference"/>
+                        <h1>
+                            <field name="transaction_ref"
+                                   placeholder="e.g. TXN-20240601-001"
+                                   readonly="state != 'draft'"/>
+                        </h1>
+                    </div>
+ 
+                    <group>
+                        <group string="Fund Details">
+                            <field name="fund_account_id"
+                                   options="{'no_create': True}"
+                                   readonly="state != 'draft'"/>
+                            <field name="date" readonly="state != 'draft'"/>
+                            <field name="amount" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Source Information">
+                            <field name="sender" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   readonly="1"/>
+                        </group>
+                    </group>
+ 
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"
+                               readonly="state != 'draft'"/>
+                    </group>
+ 
+                    <group string="Confirmation Details" invisible="state != 'confirmed'">
+                        <field name="confirmed_by" readonly="1"/>
+                        <field name="confirmed_date" readonly="1"/>
+                    </group>
+ 
+                    <group string="Attachments">
+                        <field name="attachment_ids" widget="many2many_binary"
+                               nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+        
+    <!-- INCOMING FUND — List View -->
+    <record id="view_incoming_fund_list" model="ir.ui.view">
+        <field name="name">nn.incoming.fund.list</field>
+        <field name="model">nn.incoming.fund</field>
+        <field name="arch" type="xml">
+            <list string="Incoming Funds"
+                  decoration-success="state == 'confirmed'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="date"/>
+                <field name="transaction_ref"/>
+                <field name="fund_account_id"/>
+                <field name="sender"/>
+                <field name="amount" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'confirmed'"
+                       decoration-warning="state == 'draft'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="confirmed_by"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- INCOMING FUND — Search View -->
+    <record id="view_incoming_fund_search" model="ir.ui.view">
+        <field name="name">nn.incoming.fund.search</field>
+        <field name="model">nn.incoming.fund</field>
+        <field name="arch" type="xml">
+            <search string="Incoming Funds">
+                <field name="transaction_ref"/>
+                <field name="sender"/>
+                <field name="fund_account_id"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Today" name="today"
+                        domain="[('date','=',context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Fund Account" name="grp_account"
+                            context="{'group_by': 'fund_account_id'}"/>
+                    <filter string="Status" name="grp_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="grp_date"
+                            context="{'group_by': 'date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_incoming_fund" model="ir.actions.act_window">
+        <field name="name">Incoming Funds</field>
+        <field name="res_model">nn.incoming.fund</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_incoming_fund_search"/>
+        <field name="context">{'search_default_confirmed': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Record your first incoming fund
+            </p>
+            <p>Record all funds received into your fund accounts. Each transaction reference must be unique per account.</p>
+        </field>
+    </record>
+
+    </data>
+    
+</odoo>
