@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    <!-- FUND BILL — Form View -->
+    <record id="view_fund_bill_form" model="ir.ui.view">
+        <field name="name">nn.fund.bill.form</field>
+        <field name="model">nn.fund.bill</field>
+        <field name="arch" type="xml">
+            <form string="Fund Bill">
+                <header>
+                    <button name="action_post" string="Post Bill"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
+ 
+                    <button name="action_cancel" string="Cancel Bill"
+                            type="object" class="btn-danger"
+                            invisible="state != 'posted'"
+                            groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"
+                            confirm="Cancel this bill? The amount will be returned to the requisition's remaining billable balance."/>
+ 
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,posted"/>
+                </header>
+ 
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Bill Number"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+ 
+                    <!-- Remaining billable info bar -->
+                    <div class="alert alert-info" invisible="state != 'draft' or not requisition_id">
+                        <i class="fa fa-info-circle"/>
+                        Remaining billable on this requisition:
+                        <strong>
+                            <field name="requisition_id" nolabel="1" readonly="1" class="oe_inline"/>
+                        </strong>
+                        — ensure your bill amount does not exceed the remaining balance.
+                    </div>
+ 
+                    <!-- Cancellation reason -->
+                    <div class="alert alert-danger"
+                         invisible="state != 'cancelled' or not cancellation_reason">
+                        <strong>Cancellation Reason: </strong>
+                        <field name="cancellation_reason" readonly="1" nolabel="1"/>
+                    </div>
+ 
+                    <group>
+                        <group string="Bill Details">
+                            <field name="requisition_id"
+                                   options="{'no_create': True}"
+                                   readonly="state != 'draft'"
+                                   domain="[('state','=','approved')]"/>
+                            <!-- project_expense_id is auto-filled from requisition, read-only -->
+                            <field name="project_expense_id" readonly="1"/>
+                            <field name="amount" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Vendor &amp; Date">
+                            <field name="vendor" readonly="state != 'draft'"/>
+                            <field name="bill_date" readonly="state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company"
+                                   readonly="1"/>
+                        </group>
+                    </group>
+ 
+                    <group string="Description">
+                        <field name="description" nolabel="1" colspan="2"
+                               readonly="state != 'draft'"/>
+                    </group>
+ 
+                    <group string="Posted By" invisible="state not in ('posted','cancelled')">
+                        <field name="posted_by" readonly="1"/>
+                        <field name="posted_date" readonly="1"/>
+                    </group>
+ 
+                    <group string="Cancelled By" invisible="state != 'cancelled'">
+                        <field name="cancelled_by" readonly="1"/>
+                        <field name="cancelled_date" readonly="1"/>
+                    </group>
+ 
+                    <group string="Attachments">
+                        <field name="attachment_ids" widget="many2many_binary"
+                               nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- FUND BILL — List View     -->
+    <record id="view_fund_bill_list" model="ir.ui.view">
+        <field name="name">nn.fund.bill.list</field>
+        <field name="model">nn.fund.bill</field>
+        <field name="arch" type="xml">
+            <list string="Fund Bills"
+                  decoration-success="state == 'posted'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="bill_date"/>
+                <field name="requisition_id"/>
+                <field name="project_expense_id"/>
+                <field name="vendor"/>
+                <field name="amount" widget="monetary"
+                       options="{'currency_field': 'currency_id'}"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-warning="state == 'draft'"
+                       decoration-danger="state == 'cancelled'"/>
+                <field name="posted_by"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FUND BILL — Search View -->
+     <record id="view_fund_bill_search" model="ir.ui.view">
+        <field name="name">nn.fund.bill.search</field>
+        <field name="model">nn.fund.bill</field>
+        <field name="arch" type="xml">
+            <search string="Fund Bills">
+                <field name="name"/>
+                <field name="vendor"/>
+                <field name="requisition_id"/>
+                <field name="project_expense_id"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Posted" name="posted" domain="[('state','=','posted')]"/>
+                <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Requisition" name="grp_req"
+                            context="{'group_by': 'requisition_id'}"/>
+                    <filter string="Project / Expense" name="grp_project"
+                            context="{'group_by': 'project_expense_id'}"/>
+                    <filter string="Status" name="grp_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Bill Date" name="grp_date"
+                            context="{'group_by': 'bill_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+ 
+    <!-- Action -->
+    <record id="action_fund_bill" model="ir.actions.act_window">
+        <field name="name">Fund Bills</field>
+        <field name="res_model">nn.fund.bill</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_fund_bill_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Record your first Fund Bill
+            </p>
+            <p>Bills must be linked to an approved requisition and cannot exceed the remaining billable amount.</p>
+        </field>
+    </record>
+    
+    </data>
+
+</odoo>
