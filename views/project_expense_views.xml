@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- PROJECT / EXPENSE HEAD — Form View -->
     <record id="view_project_expense_form" model="ir.ui.view">
         <field name="name">nn.project.expense.form</field>
@@ -218,7 +217,5 @@
         <field name="context">{'default_budget_type': 'expense'}</field>
         <field name="search_view_id" ref="view_project_expense_search"/>
     </record>
-    
-    </data>
     
 </odoo>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- FUND REQUISITION — Form View -->
     <record id="view_fund_requisition_form" model="ir.ui.view">
         <field name="name">nn.fund.requisition.form</field>
@@ -52,28 +51,42 @@
                         </h1>
                     </div>
  
-                    <!-- Remaining billable highlight -->
-                    <div class="o_field_widget o_stat_buttons"
+                    <!-- Smart Buttons -->
+                    <div class="oe_button_box" name="button_box"
                          invisible="state not in ('approved','closed')">
-                        <div class="btn btn-light o_stat_button">
-                            <field name="requested_amount" widget="monetary"
-                                   options="{'currency_field': 'currency_id'}"/>
-                            <span class="o_stat_text">Approved Amount</span>
-                        </div>
-                        <div class="btn btn-light o_stat_button">
-                            <field name="total_billed" widget="monetary"
-                                   options="{'currency_field': 'currency_id'}"/>
-                            <span class="o_stat_text">Total Billed</span>
-                        </div>
-                        <div class="btn btn-light o_stat_button">
-                            <field name="remaining_billable" widget="monetary"
-                                   options="{'currency_field': 'currency_id'}"/>
-                            <span class="o_stat_text">Remaining Billable</span>
-                        </div>
-                        <button class="btn btn-light o_stat_button" type="object"
+                        <button class="oe_stat_button" type="object"
                                 name="action_view_bills" icon="fa-file-text-o">
-                            <field name="bill_count"/>
-                            <span class="o_stat_text">Bills</span>
+                            <div class="o_stat_info">
+                                <field name="bill_count" class="o_stat_value"/>
+                                <span class="o_stat_text">Bills</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_bills" icon="fa-money">
+                            <div class="o_stat_info">
+                                <field name="requested_amount" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"
+                                       class="o_stat_value"/>
+                                <span class="o_stat_text">Approved</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_bills" icon="fa-check">
+                            <div class="o_stat_info">
+                                <field name="total_billed" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"
+                                       class="o_stat_value"/>
+                                <span class="o_stat_text">Billed</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_bills" icon="fa-hourglass-half">
+                            <div class="o_stat_info">
+                                <field name="remaining_billable" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"
+                                       class="o_stat_value"/>
+                                <span class="o_stat_text">Remaining</span>
+                            </div>
                         </button>
                     </div>
  
@@ -161,8 +174,7 @@
                 <chatter/>
             </form>
         </field>
-    </record>   
-
+    </record>
     <!-- FUND REQUISITION — List View  -->
     <record id="view_fund_requisition_list" model="ir.ui.view">
         <field name="name">nn.fund.requisition.list</field>
@@ -235,7 +247,5 @@
             <p>Request funds from a project or expense head. Bills can only be raised against approved requisitions.</p>
         </field>
     </record>
-    
-    </data>
     
 </odoo>

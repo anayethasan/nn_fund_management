@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- INCOMING FUND — Form View -->
     <record id="view_incoming_fund_form" model="ir.ui.view">
         <field name="name">nn.incoming.fund.form</field>
@@ -143,6 +142,4 @@
         </field>
     </record>
 
-    </data>
-    
 </odoo>

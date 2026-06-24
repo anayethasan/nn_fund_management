@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- FUND ACCOUNT — Form View -->
         <record id="view_fund_account_form" model="ir.ui.view">
             <field name="name">nn.fund.account.form</field>
@@ -16,31 +15,43 @@
                             </h1>
                         </div>
     
-                        <!-- Balance Summary Bar -->
-                        <div class="o_field_widget o_stat_buttons">
-                            <button class="btn btn-light o_stat_button" type="object"
+                        <!-- Smart Buttons -->
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object"
                                     name="action_view_incoming_funds" icon="fa-arrow-down">
-                                <field name="total_received" widget="monetary"
-                                    options="{'currency_field': 'currency_id'}"/>
-                                <span class="o_stat_text">Total Received</span>
+                                <div class="o_stat_info">
+                                    <field name="total_received" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                        class="o_stat_value"/>
+                                    <span class="o_stat_text">Total Received</span>
+                                </div>
                             </button>
-                            <button class="btn btn-light o_stat_button" type="object"
+                            <button class="oe_stat_button" type="object"
                                     name="action_view_incoming_funds" icon="fa-unlock">
-                                <field name="unassigned_balance" widget="monetary"
-                                    options="{'currency_field': 'currency_id'}"/>
-                                <span class="o_stat_text">Unassigned</span>
+                                <div class="o_stat_info">
+                                    <field name="unassigned_balance" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                        class="o_stat_value"/>
+                                    <span class="o_stat_text">Unassigned</span>
+                                </div>
                             </button>
-                            <button class="btn btn-light o_stat_button" type="object"
+                            <button class="oe_stat_button" type="object"
                                     name="action_view_allocations" icon="fa-clock-o">
-                                <field name="held_amount" widget="monetary"
-                                    options="{'currency_field': 'currency_id'}"/>
-                                <span class="o_stat_text">On Hold</span>
+                                <div class="o_stat_info">
+                                    <field name="held_amount" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                        class="o_stat_value"/>
+                                    <span class="o_stat_text">On Hold</span>
+                                </div>
                             </button>
-                            <button class="btn btn-light o_stat_button" type="object"
+                            <button class="oe_stat_button" type="object"
                                     name="action_view_allocations" icon="fa-check-circle">
-                                <field name="assigned_amount" widget="monetary"
-                                    options="{'currency_field': 'currency_id'}"/>
-                                <span class="o_stat_text">Assigned</span>
+                                <div class="o_stat_info">
+                                    <field name="assigned_amount" widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                        class="o_stat_value"/>
+                                    <span class="o_stat_text">Assigned</span>
+                                </div>
                             </button>
                         </div>
     
@@ -57,11 +68,11 @@
                             </group>
                         </group>
     
-                        <!-- Incoming Funds tab -->
                         <notebook>
                             <page string="Incoming Funds" name="incoming_funds">
                                 <field name="incoming_fund_ids" mode="list" readonly="1">
-                                    <list string="Incoming Funds" decoration-success="state == 'confirmed'"
+                                    <list string="Incoming Funds"
+                                        decoration-success="state == 'confirmed'"
                                         decoration-muted="state == 'cancelled'">
                                         <field name="date"/>
                                         <field name="transaction_ref"/>
@@ -78,7 +89,8 @@
                             </page>
                             <page string="Allocations" name="allocations">
                                 <field name="allocation_ids" mode="list" readonly="1">
-                                    <list string="Allocations" decoration-success="state == 'approved'"
+                                    <list string="Allocations"
+                                        decoration-success="state == 'approved'"
                                         decoration-warning="state in ('submitted','gm_approved')"
                                         decoration-danger="state in ('rejected','cancelled')">
                                         <field name="name"/>
@@ -157,7 +169,5 @@
                 <p>Fund accounts hold incoming funds and track unassigned, held and assigned balances.</p>
             </field>
         </record>
-
-    </data>
     
 </odoo>

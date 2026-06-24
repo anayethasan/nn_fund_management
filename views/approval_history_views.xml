@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- APPROVAL HISTORY — List View (read-only audit log) -->
     <record id="view_approval_history_list" model="ir.ui.view">
         <field name="name">nn.approval.history.list</field>
@@ -120,7 +119,5 @@
             <p>All approval actions on allocations, requisitions and transfers are logged here automatically.</p>
         </field>
     </record>
-        
-    </data>
-    
+   
 </odoo>

@@ -1,155 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- ROOT MENU -->
-    <menuitem
-        id="menu_nn_fund_management_root"
-        name="Fund Management"
-        sequence="50"
-        groups="nn_fund_management.group_fund_user,
-                nn_fund_management.group_finance_user,
-                nn_fund_management.group_gm_approver,
-                nn_fund_management.group_md_approver,
-                nn_fund_management.group_fund_admin"/>
+    <menuitem id="menu_nn_fund_management_root" name="Fund Management" sequence="50" groups="nn_fund_management.group_fund_user,nn_fund_management.group_finance_user,nn_fund_management.group_gm_approver,nn_fund_management.group_md_approver,nn_fund_management.group_fund_admin"/>
 
-    <!-- SECTION 1 — FUND ACCOUNTS & INCOMING FUNDS -->
-    <menuitem
-        id="menu_fund_accounts_section"
-        name="Fund Accounts"
-        parent="menu_nn_fund_management_root"
-        sequence="10"
-        groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
- 
-    <menuitem
-        id="menu_fund_account"
-        name="Fund Accounts"
-        parent="menu_fund_accounts_section"
-        action="action_fund_account"
-        sequence="10"
-        groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
- 
-    <menuitem
-        id="menu_incoming_fund"
-        name="Incoming Funds"
-        parent="menu_fund_accounts_section"
-        action="action_incoming_fund"
-        sequence="20"
-        groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
-    
-    <!-- SECTION 2 — PROJECTS & EXPENSE HEADS -->
-    <menuitem
-        id="menu_budget_section"
-        name="Budget"
-        parent="menu_nn_fund_management_root"
-        sequence="20"
-        groups="nn_fund_management.group_fund_user,
-                nn_fund_management.group_finance_user,
-                nn_fund_management.group_fund_admin"/>
- 
-    <menuitem
-        id="menu_projects"
-        name="Projects"
-        parent="menu_budget_section"
-        action="action_projects"
-        sequence="10"/>
- 
-    <menuitem
-        id="menu_expense_heads"
-        name="Expense Heads"
-        parent="menu_budget_section"
-        action="action_expense_heads"
-        sequence="20"/>
+    <!-- SECTION 1: FUND ACCOUNTS -->
+    <menuitem id="menu_fund_accounts_section" name="Fund Accounts" parent="menu_nn_fund_management_root" sequence="10" groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
 
-    <!-- SECTION 3 — TRANSACTIONS -->
-    <menuitem
-        id="menu_transactions_section"
-        name="Transactions"
-        parent="menu_nn_fund_management_root"
-        sequence="30"
-        groups="nn_fund_management.group_fund_user,
-                nn_fund_management.group_finance_user,
-                nn_fund_management.group_gm_approver,
-                nn_fund_management.group_md_approver,
-                nn_fund_management.group_fund_admin"/>
- 
-    <menuitem
-        id="menu_fund_allocation"
-        name="Fund Allocations"
-        parent="menu_transactions_section"
-        action="action_fund_allocation"
-        sequence="10"/>
- 
-    <menuitem
-        id="menu_fund_requisition"
-        name="Fund Requisitions"
-        parent="menu_transactions_section"
-        action="action_fund_requisition"
-        sequence="20"/>
- 
-    <menuitem
-        id="menu_fund_transfer"
-        name="Fund Transfers"
-        parent="menu_transactions_section"
-        action="action_fund_transfer"
-        sequence="30"/>
- 
-    <menuitem
-        id="menu_fund_bill"
-        name="Fund Bills"
-        parent="menu_transactions_section"
-        action="action_fund_bill"
-        sequence="40"
-        groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
+    <menuitem id="menu_fund_account" name="Fund Accounts" parent="menu_fund_accounts_section" action="action_fund_account" sequence="10" groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
 
-    <!-- SECTION 4 — AUDIT / REPORTING -->
-    <menuitem
-        id="menu_reporting_section"
-        name="Audit &amp; History"
-        parent="menu_nn_fund_management_root"
-        sequence="40"
-        groups="nn_fund_management.group_finance_user,
-                nn_fund_management.group_gm_approver,
-                nn_fund_management.group_md_approver,
-                nn_fund_management.group_fund_admin"/>
- 
-    <menuitem
-        id="menu_approval_history"
-        name="Approval History"
-        parent="menu_reporting_section"
-        action="action_approval_history"
-        sequence="10"/>
+    <menuitem id="menu_incoming_fund" name="Incoming Funds" parent="menu_fund_accounts_section" action="action_incoming_fund" sequence="20" groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
 
-    <!-- SECTION 5 — CONFIGURATION (Admin only) -->
-    <menuitem
-        id="menu_config_section"
-        name="Configuration"
-        parent="menu_nn_fund_management_root"
-        sequence="100"
-        groups="nn_fund_management.group_fund_admin"/>
- 
-    <menuitem
-        id="menu_config_fund_accounts"
-        name="Fund Accounts"
-        parent="menu_config_section"
-        action="action_fund_account"
-        sequence="10"/>
- 
-    <menuitem
-        id="menu_config_projects"
-        name="Projects"
-        parent="menu_config_section"
-        action="action_projects"
-        sequence="20"/>
- 
-    <menuitem
-        id="menu_config_expense_heads"
-        name="Expense Heads"
-        parent="menu_config_section"
-        action="action_expense_heads"
-        sequence="30"/>
-        
-    
-    </data>
-    
+    <!-- SECTION 2: BUDGET -->
+    <menuitem id="menu_budget_section" name="Budget" parent="menu_nn_fund_management_root" sequence="20" groups="nn_fund_management.group_fund_user,nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
+
+    <menuitem id="menu_projects" name="Projects" parent="menu_budget_section" action="action_projects" sequence="10"/>
+
+    <menuitem id="menu_expense_heads" name="Expense Heads" parent="menu_budget_section" action="action_expense_heads" sequence="20"/>
+
+    <!-- SECTION 3: TRANSACTIONS -->
+    <menuitem id="menu_transactions_section" name="Transactions" parent="menu_nn_fund_management_root" sequence="30" groups="nn_fund_management.group_fund_user,nn_fund_management.group_finance_user,nn_fund_management.group_gm_approver,nn_fund_management.group_md_approver,nn_fund_management.group_fund_admin"/>
+
+    <menuitem id="menu_fund_allocation" name="Fund Allocations" parent="menu_transactions_section" action="action_fund_allocation" sequence="10"/>
+
+    <menuitem id="menu_fund_requisition" name="Fund Requisitions" parent="menu_transactions_section" action="action_fund_requisition" sequence="20"/>
+
+    <menuitem id="menu_fund_transfer" name="Fund Transfers" parent="menu_transactions_section" action="action_fund_transfer" sequence="30"/>
+
+    <menuitem id="menu_fund_bill" name="Fund Bills" parent="menu_transactions_section" action="action_fund_bill" sequence="40" groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
+
+    <!-- SECTION 4: AUDIT -->
+    <menuitem id="menu_reporting_section" name="Audit and History" parent="menu_nn_fund_management_root" sequence="40" groups="nn_fund_management.group_finance_user,nn_fund_management.group_gm_approver,nn_fund_management.group_md_approver,nn_fund_management.group_fund_admin"/>
+
+    <menuitem id="menu_approval_history" name="Approval History" parent="menu_reporting_section" action="action_approval_history" sequence="10"/>
+
+    <!-- SECTION 5: CONFIGURATION (Admin only) -->
+    <menuitem id="menu_config_section" name="Configuration" parent="menu_nn_fund_management_root" sequence="100" groups="nn_fund_management.group_fund_admin"/>
+
+    <menuitem id="menu_config_fund_accounts" name="Fund Accounts" parent="menu_config_section" action="action_fund_account" sequence="10"/>
+
+    <menuitem id="menu_config_projects" name="Projects" parent="menu_config_section" action="action_projects" sequence="20"/>
+
+    <menuitem id="menu_config_expense_heads" name="Expense Heads" parent="menu_config_section" action="action_expense_heads" sequence="30"/>
+
 </odoo>

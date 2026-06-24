@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- FUND ALLOCATION — Form View -->
     <record id="view_fund_allocation_form" model="ir.ui.view">
         <field name="name">nn.fund.allocation.form</field>
@@ -203,7 +202,5 @@
             <p>Allocate funds from a fund account to a project or expense head. Requires GM and MD approval.</p>
         </field>
     </record>
-    
-    </data>
     
 </odoo>

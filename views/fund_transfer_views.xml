@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <data>
     <!-- FUND TRANSFER — Form View -->
     <record id="view_fund_transfer_form" model="ir.ui.view">
         <field name="name">nn.fund.transfer.form</field>
@@ -193,7 +192,5 @@
             <p>Transfer funds between projects or expense heads. Source and destination must be different.</p>
         </field>
     </record>
-    
-    </data>
     
 </odoo>

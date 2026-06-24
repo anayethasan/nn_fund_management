@@ -326,3 +326,13 @@ class FundRequisition(models.Model):
             if rec.state != 'draft':
                 raise UserError(f'Requisition "{rec.name}" cannot be deleted. Cancel it first.')
         return super().unlink()
+    
+    def action_view_bills(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Bills',
+            'res_model': 'nn.fund.bill',
+            'view_mode': 'list,form',
+            'domain': [('requisition_id', '=', self.id)],
+            'context': {'default_requisition_id': self.id},
+        }

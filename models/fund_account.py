@@ -146,3 +146,25 @@ class FundAccount(models.Model):
                 raise ValidationError(
                     f'Fund account {account.name} would have a negative unassigned balance.'
                 )
+                
+    
+    # smart button
+    def action_view_incoming_funds(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Incoming Funds',
+            'res_model': 'nn.incoming.fund',
+            'view_mode': 'list,form',
+            'domain': [('fund_account_id', '=', self.id)],
+            'context': {'default_fund_account_id': self.id},
+        }
+ 
+    def action_view_allocations(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Allocations',
+            'res_model': 'nn.fund.allocation',
+            'view_mode': 'list,form',
+            'domain': [('fund_account_id', '=', self.id)],
+            'context': {'default_fund_account_id': self.id},
+        }
