@@ -1,0 +1,21 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fund_account_fund_user,nn.fund.account fund user,model_nn_fund_account,nn_fund_management.group_fund_user,1,0,0,0
+access_fund_account_finance_user,nn.fund.account finance user,model_nn_fund_account,nn_fund_management.group_finance_user,1,1,1,0
+access_fund_account_fund_admin,nn.fund.account admin,model_nn_fund_account,nn_fund_management.group_fund_admin,1,1,1,1
+access_incoming_fund_fund_user,nn.incoming.fund fund user,model_nn_incoming_fund,nn_fund_management.group_fund_user,1,0,0,0
+access_incoming_fund_finance_user,nn.incoming.fund finance user,model_nn_incoming_fund,nn_fund_management.group_finance_user,1,1,1,0
+access_incoming_fund_fund_admin,nn.incoming.fund admin,model_nn_incoming_fund,nn_fund_management.group_fund_admin,1,1,1,1
+access_project_expense_fund_user,nn.project.expense fund user,model_nn_project_expense,nn_fund_management.group_fund_user,1,0,0,0
+access_project_expense_finance_user,nn.project.expense finance user,model_nn_project_expense,nn_fund_management.group_finance_user,1,1,1,0
+access_project_expense_fund_admin,nn.project.expense admin,model_nn_project_expense,nn_fund_management.group_fund_admin,1,1,1,1
+access_fund_allocation_fund_user,nn.fund.allocation fund user,model_nn_fund_allocation,nn_fund_management.group_fund_user,1,1,1,0
+access_fund_allocation_fund_admin,nn.fund.allocation admin,model_nn_fund_allocation,nn_fund_management.group_fund_admin,1,1,1,1
+access_fund_requisition_fund_user,nn.fund.requisition fund user,model_nn_fund_requisition,nn_fund_management.group_fund_user,1,1,1,0
+access_fund_requisition_fund_admin,nn.fund.requisition admin,model_nn_fund_requisition,nn_fund_management.group_fund_admin,1,1,1,1
+access_fund_transfer_fund_user,nn.fund.transfer fund user,model_nn_fund_transfer,nn_fund_management.group_fund_user,1,1,1,0
+access_fund_transfer_fund_admin,nn.fund.transfer admin,model_nn_fund_transfer,nn_fund_management.group_fund_admin,1,1,1,1
+access_fund_bill_fund_user,nn.fund.bill fund user,model_nn_fund_bill,nn_fund_management.group_fund_user,1,0,0,0
+access_fund_bill_finance_user,nn.fund.bill finance user,model_nn_fund_bill,nn_fund_management.group_finance_user,1,1,1,0
+access_fund_bill_fund_admin,nn.fund.bill admin,model_nn_fund_bill,nn_fund_management.group_fund_admin,1,1,1,1
+access_approval_history_fund_user,nn.approval.history fund user,model_nn_approval_history,nn_fund_management.group_fund_user,1,0,0,0
+access_approval_history_fund_admin,nn.approval.history admin,model_nn_approval_history,nn_fund_management.group_fund_admin,1,0,0,0

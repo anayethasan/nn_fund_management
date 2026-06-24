@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+    <!-- CATEGORY -->
+        <record id="module_category_nn_fund_management" model="ir.module.category">
+            <field name="name">Fund Management</field>
+            <field name="description">Access rights for NN Fund Management module.</field>
+            <field name="sequence">20</field>
+        </record>    
+
+    <!-- GROUPS Hierarchy: Fund User < Finance User < GM < MD < Admin -->
+    <!-- 1. Fund User — can create and view requests -->
+        <record id="group_fund_user" model="res.groups">
+            <field name="name">Fund User</field>
+            <field name="category_id" ref="module_category_nn_fund_management"/>
+            <field name="comment">
+                Can create fund allocations, requisitions, and transfer requests.
+                Can view their own records. Cannot confirm incoming funds or post bills.
+            </field>
+        </record>
+
+    <!-- Finance User — can confirm incoming funds and cancel -->
+        <record id="group_finance_user" model="res.groups">
+            <field name="name">Finance User</field>
+            <field name="category_id" ref="module_category_nn_fund_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_fund_user'))]"/>
+            <field name="comment">
+                Inherits Fund User. Can confirm incoming funds, post bills, and cancel bills.
+            </field>
+        </record>
+
+    <!-- GM Approver — first level approval      -->
+        <record id="group_gm_approver" model="res.groups">
+            <field name="name">GM Approver</field>
+            <field name="category_id" ref="module_category_nn_fund_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_finance_user'))]"/>
+            <field name="comment">
+                Inherits Finance User. Can perform GM-level approval or rejection on
+                allocations, requisitions, and transfers.
+            </field>
+        </record>
+    
+    <!-- MD Approver — final approval level -->
+        <record id="group_md_approver" model="res.groups">
+            <field name="name">MD Approver</field>
+            <field name="category_id" ref="module_category_nn_fund_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_gm_approver'))]"/>
+            <field name="comment">
+                Inherits GM Approver. Can perform MD-level (final) approval.
+                Cannot approve before GM approval is complete.
+            </field>
+        </record>
+
+    <!-- Fund Administrator — full access, can cancel approved records -->
+    <record id="group_fund_admin" model="res.groups">
+            <field name="name">Fund Administrator</field>
+            <field name="category_id" ref="module_category_nn_fund_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_md_approver'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+            <field name="comment">
+                Full access. Can cancel approved transactions and perform all actions.
+                Admin user is automatically added to this group.
+            </field>
+        </record>
+    
+    </data>
+    
+</odoo>
