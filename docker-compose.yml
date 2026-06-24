@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: postgres:16
+    container_name: nn_fund_db
+    environment:
+      POSTGRES_DB: odoo18
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - odoo_net
+    restart: unless-stopped
+
+  odoo:
+    image: odoo:18.0
+    container_name: nn_fund_odoo
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    environment:
+      HOST: db
+      USER: odoo18
+      PASSWORD: 1234
+    volumes:
+      - odoo_data:/var/lib/odoo
+      # Mount the custom module into Odoo's addons path
+      - ./nn_fund_management:/mnt/custom_module_or_addons/nn_fund_management
+      - ./odoo.conf:/etc/odoo/odoo.conf
+    networks:
+      - odoo_net
+    restart: unless-stopped
+    command: odoo --config /etc/odoo/odoo.conf
+
+volumes:
+  db_data:
+  odoo_data:
+
+networks:
+  odoo_net:
+    driver: bridge

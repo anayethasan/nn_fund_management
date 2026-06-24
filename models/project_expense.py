@@ -177,14 +177,14 @@ class ProjectExpenseHead(models.Model):
             rec.available_balance = available
             
     # Prevent manual write on balance fields
-    def write(self, vals):
-        balance_fields = {
-            'total_allocated', 'available_balance', 'requisition_hold',
-            'transfer_hold', 'total_spent', 'incoming_transfers', 'outgoing_transfers',
-        }
-        if balance_fields & set(vals.keys()):
-            raise ValidationError('Balance fields are calculated automatically and cannot be edited manually.')
-        return super().write(vals)
+    # def write(self, vals):
+    #     balance_fields = {
+    #         'total_allocated', 'available_balance', 'requisition_hold',
+    #         'transfer_hold', 'total_spent', 'incoming_transfers', 'outgoing_transfers',
+    #     }
+    #     if balance_fields & set(vals.keys()):
+    #         raise ValidationError('Balance fields are calculated automatically and cannot be edited manually.')
+    #     return super().write(vals)
     
     # Constraint
     _sql_constraints = [

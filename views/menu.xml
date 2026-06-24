@@ -27,7 +27,7 @@
 
     <menuitem id="menu_fund_transfer" name="Fund Transfers" parent="menu_transactions_section" action="action_fund_transfer" sequence="30"/>
 
-    <menuitem id="menu_fund_bill" name="Fund Bills" parent="menu_transactions_section" action="action_fund_bill" sequence="40" groups="nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
+    <menuitem id="menu_fund_bill" name="Fund Bills" parent="menu_transactions_section" action="action_fund_bill" sequence="40" groups="nn_fund_management.group_fund_user,nn_fund_management.group_finance_user,nn_fund_management.group_fund_admin"/>
 
     <!-- SECTION 4: AUDIT -->
     <menuitem id="menu_reporting_section" name="Audit and History" parent="menu_nn_fund_management_root" sequence="40" groups="nn_fund_management.group_finance_user,nn_fund_management.group_gm_approver,nn_fund_management.group_md_approver,nn_fund_management.group_fund_admin"/>

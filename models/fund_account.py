@@ -125,11 +125,11 @@ class FundAccount(models.Model):
             account.unassigned_balance = unassigned
             
             #prevent manual write on balance fields
-    def write(self, vals):
-        protected = {'total_received', 'unassigned_balance', 'held_amount', 'assigned_amount'}
-        if protected & set(vals.keys()):
-            raise ValidationError('Balance fields are calculated automatically and cannot be edited manually.')
-        return super().write(vals)
+    # def write(self, vals):
+    #     protected = {'total_received', 'unassigned_balance', 'held_amount', 'assigned_amount'}
+    #     if protected & set(vals.keys()):
+    #         raise ValidationError('Balance fields are calculated automatically and cannot be edited manually.')
+    #     return super().write(vals)
             
     # constraints 
     _sql_constraints = [

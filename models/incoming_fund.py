@@ -114,10 +114,10 @@ class IncomingFund(models.Model):
                 raise UserError(f'Only draft incoming funds can be confirmed. "{rec.transaction_ref}" is {rec.state}.')
             rec.write({
                 'state': 'confirmed',
-                'confirmed_by': self.self.env.user.id,
+                'confirmed_by': self.env.uid,
                 'confirmed_date': fields.Datetime.now(),
             })
-            # rec.fund_account_id._compute_balances()
+            rec.fund_account_id._compute_balances()
             
     
     def action_cancel(self):
